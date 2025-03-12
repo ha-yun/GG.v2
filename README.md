@@ -42,4 +42,4 @@
 
 - 코드 실행
     - (web) ..> python run.py
-    - tts 실행 시 : python app.py -> http://127.0.0.1:5000 접속
+    - tts 채팅 실행 시 : python app.py -> http://127.0.0.1:5000 접속
