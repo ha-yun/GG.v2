@@ -1,0 +1,164 @@
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+h1 {
+    width: 100%;
+    text-align: center;
+    font-size: 28px;
+    font-weight: bold;
+    text-align: center;
+    color: #ff758c;
+    margin-bottom: 15px;
+    position: relative;
+    display: inline-block;
+    padding: 10px 20px;
+    color: linear-gradient(135deg, #ff758c, #ff7eb3);
+    text-shadow: 0 4px 10px rgba(255, 126, 179, 0.4);
+    animation: fadeIn 1s ease-in-out;
+}
+h2{
+    width: 100%;
+    text-align: center;
+    font-weight: bold;
+    text-align: center;
+    color: #ff758c;
+    margin-bottom: 15px;
+    position: relative;
+    display: inline-block;
+    padding: 10px 20px;
+    color: linear-gradient(135deg, #ff758c, #ff7eb3);
+    text-shadow: 0 4px 10px rgba(255, 126, 179, 0.4);
+    animation: fadeIn 1s ease-in-out;
+}
+    fieldset {
+        border: none;
+        background: #f9f9f9;
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        max-width: 400px;
+        margin: 20px auto;
+    }
+    label {
+        font-size: 18px;
+        font-weight: bold;
+        color: #333;
+        display: block;
+        margin-bottom: 10px;
+    }
+    textarea {
+        width: 100%;
+        height: 100px;
+        border-radius: 8px;
+        border: 1px solid #ddd;
+        font-size: 16px;
+        resize: none;
+        outline: none;
+        transition: 0.3s;
+    }
+    textarea:focus {
+        border-color: #ff7eb3;
+        box-shadow: 0 0 5px rgba(255, 126, 179, 0.5);
+    }
+    input[type="submit"] {
+        background: linear-gradient(135deg, #ff7eb3, #ff758c);
+        color: white;
+        font-size: 16px;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 8px;
+        cursor: pointer;
+        margin-top: 10px;
+        transition: 0.3s;
+    }
+    input[type="submit"]:hover {
+        background: linear-gradient(135deg, #ff758c, #ff7eb3);
+        transform: scale(1.05);
+    }
+
+        #imageContainer {
+            width: 100%;
+            text-align: center;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(255, 126, 179, 0.2);
+            display: block;
+            margin: 0 auto;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        #generatedImage {
+            max-width: 500px;
+            width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        #generatedImage:hover {
+            transform: scale(1.05);
+        }
+
+        #imageText {
+            font-size: 18px;
+            color: #ff5e78;
+            font-weight: bold;
+            margin-top: 10px;
+            background: linear-gradient(135deg, #ff758c, #ff7eb3);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 8px;
+            display: inline-block;
+            box-shadow: 0 3px 8px rgba(255, 126, 179, 0.4);
+        }
+
+
+/* 로딩 스피너 스타일 */
+#loading {
+    display: none; /* 기본적으로 숨김 */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6); /* 반투명 배경 */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+/* 스피너 애니메이션 */
+.spinner {
+    width: 50px;
+    height: 50px;
+    border: 5px solid rgba(255, 255, 255, 0.3);
+    border-top: 5px solid #ffffff;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 15px;
+}
+
+/* 회전 애니메이션 */
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+
+#result{
+    background: #fff5f8;
+}

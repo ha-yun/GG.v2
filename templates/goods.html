@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>굿즈 목업 생성</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/goods.css') }}">
+</head>
+
+<body>
+    <h1>🎨 나만의 굿즈 만들기 ✨</h1>
+    <fieldset>
+        <label>💡 원하는 디자인을 적어주세요!</label>
+        <p style="font-size: 14px; color: #666;">(문양, 패턴, 동물 등 자유롭게 입력하세요.)</p>
+        <form id="user_input">
+            <textarea name="question"></textarea>
+            <input type="submit" value="✨ 생성하기 ✨" />
+        </form>
+    </fieldset>
+
+    <!-- 로딩 스피너 -->
+    <div id="loading" style="display: none;">
+        <div class="spinner"></div>
+        <p>이미지를 생성 중입니다...</p>
+    </div>
+
+
+    <!-- 결과를 표시할 영역 -->
+    <div id="result" style="display: none;">
+        <h2>완성된 디자인</h2>
+        <div id="imageContainer">
+            <img id="generatedImage" src="" alt="이미지가 여기에 표시됩니다." 
+                style="max-width: 500px; width:100%;">
+                <p>Your custom design is ready!</p>
+        </div>
+    </div>
+
+    <script>
+        $('#user_input').on('submit', e=>{
+            e.preventDefault()
+            // 로딩 화면 표시
+            $('#loading').show();
+
+            let userText = $('[name=question]').val();
+
+            // 서버 전송
+            $.ajax({
+                url: '/api/ai/goods',
+                type: 'POST',
+                data: JSON.stringify({ 'user_input': userText }),  // JSON 형식으로 변환
+                contentType: 'application/json',  // JSON 전송 명확히 지정
+                dataType: 'json',
+                success: res=>{
+                    console.log('성공',res)
+                    // 로딩 화면 숨기기
+                    $('#loading').hide();
+                    // 이미지 URL이 존재하면 화면에 표시
+                    if (res.answer) {
+                        $('#result').show();
+                        $('#generatedImage').attr('src', res.image_url).show(); 
+                        }
+                },
+                error: err => {
+                    console.log('실패',err)
+                    alert('이미지 생성에 실패했습니다.');
+                    // 로딩 화면 숨기기
+                    $('#loading').hide();
+                }
+            })
+        })
+    </script>
+</body>
+</html>
