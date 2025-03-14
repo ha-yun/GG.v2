@@ -1,13 +1,25 @@
 # 1. 필요한 모듈 가져오기
-from flask import Flask, jsonify, request, render_template
+from flask import Flask, jsonify, request, render_template, send_from_directory
+
 # jsonify: JSON 응답용
 # request : 사용자 전달 데이터 획득용
-
+import os
+import requests
+from datetime import datetime
 from CreateGoods import retrieve_goods, generate_image_prompt, generate_image  # 모델 로드
-
 
 # 2. Flask 앱 초기화
 app = Flask(__name__)   # "__main__"
+
+
+# 절대 경로 설정
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+@app.route('/goods_image/<string:filename>')
+def serve_image(filename):
+    print(f"📂 요청된 파일: {filename}")  # 요청된 파일명이 출력되는지 확인
+    return send_from_directory(os.path.join(BASE_DIR, 'goods_image'), filename)
+
 
 # 3. 라우팅 처리
 @app.route('/')     # URL, method 지정 (기본값 get방식)
@@ -26,8 +38,23 @@ def create_goods():
     print(f"🎨 생성된 이미지 프롬프트: {optimized_prompt}")
     image_url = generate_image(optimized_prompt)
     print(f"🖼️ 생성된 이미지 URL: {image_url}")
+    
+    # 현재 시간 가져오기
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    # 저장 경로 생성
+    save_path = f"./goods_image/{timestamp}.jpg"
+    os.makedirs(os.path.dirname(save_path), exist_ok=True)  # 폴더 없으면 생성
 
-    response_data = {'answer': '이미지 생성 완료!', 'image_url': image_url}
+    # 이미지 데이터 다운로드 후 저장
+    img_response = requests.get(image_url)  # 이미지 다운로드
+    if img_response.status_code == 200:  # 요청 성공 확인
+        with open(save_path, "wb") as file:
+            file.write(img_response.content)
+        print(f"✅ 이미지 저장 완료: {save_path}")
+    else:
+        print(f"❌ 이미지 다운로드 실패! 상태 코드: {img_response.status_code}")
+
+    response_data = {'answer': '이미지 생성 완료!', 'image_url': save_path}
     return jsonify(response_data)
 
 

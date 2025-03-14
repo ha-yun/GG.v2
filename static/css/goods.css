@@ -123,7 +123,7 @@ h2{
 
 
 /* 로딩 스피너 스타일 */
-#loading {
+#loading, #taking {
     display: none; /* 기본적으로 숨김 */
     position: fixed;
     top: 0;
@@ -161,4 +161,16 @@ h2{
 
 #result{
     background: #fff5f8;
+}
+
+#gallery {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+.gallery-item {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 8px;
 }
