@@ -1,0 +1,44 @@
+<!-- templates/index.html -->
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MusicGen - AI 음악 생성</title>
+</head>
+<body>
+    <h1>AI 음악 생성기</h1>
+    <form id="music-form">
+        <label for="style">음악 스타일 입력:</label>
+        <input type="text" id="style" name="style" required>
+        <button type="submit">음악 생성</button>
+    </form>
+    <p id="status"></p>
+    <a id="download-link" style="display: none;" download>다운로드</a>
+
+    <script>
+        document.getElementById("music-form").addEventListener("submit", async function(event) {
+            event.preventDefault();
+            const style = document.getElementById("style").value;
+            document.getElementById("status").innerText = "음악을 생성하는 중...";
+            document.getElementById("download-link").style.display = "none";
+
+            const response = await fetch("/generate", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ style })
+            });
+
+            const result = await response.json();
+            if (result.success) {
+                document.getElementById("status").innerText = "음악이 생성되었습니다!";
+                document.getElementById("download-link").href = result.filepath;
+                document.getElementById("download-link").innerText = "다운로드";
+                document.getElementById("download-link").style.display = "block";
+            } else {
+                document.getElementById("status").innerText = "오류 : " + result.error;
+            }
+        });
+    </script>
+</body>
+</html>
