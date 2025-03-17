@@ -19,20 +19,6 @@
         </form>
     </fieldset>
 
-    <!-- 로딩 스피너 -->
-    <div id="loading" style="display: none;">
-        <div class="spinner"></div>
-        <p>이미지를 생성 중입니다...</p>
-    </div>
-
-
-    <!-- 로딩 스피너 -->
-    <div id="taking" style="display: none;">
-        <div class="spinner"></div>
-        <p>히스토리를 불러오는 중입니다...</p>
-    </div>
-
-
     <!-- 결과를 표시할 영역 -->
     <div id="result" style="display: none;">
         <h2>완성된 디자인</h2>
@@ -48,6 +34,19 @@
         <h2>지금까지의 디자인</h2>
         <div id="gallery"></div> <!-- 여기에 이미지 추가됨 -->
     </div>
+    
+    <!-- 로딩 스피너 -->
+    <div id="loading" style="display: none;">
+        <div class="spinner"></div>
+        <p>이미지를 생성 중입니다...</p>
+    </div>
+
+
+    <!-- 로딩 스피너 -->
+    <div id="taking" style="display: none;">
+        <div class="spinner"></div>
+        <p>히스토리를 불러오는 중입니다...</p>
+    </div>
 
     <script>
         $(document).ready(function() {
@@ -55,7 +54,7 @@
             let galleryDiv = $("#gallery");
             // 기존 프로젝트에서 요청
             $.ajax({
-                url: "pdts/custom/goods",
+                url: "http://52.77.19.120:8080/customgoods", // 🔥 추가된 부분: 이전 프로젝트(GG-SB) API 호출 - 커스텀 굿즈 조회
                 type: 'GET',
                 success: res=>{
                     console.log('성공',res)
@@ -63,7 +62,7 @@
                     $('#taking').hide();
 
                     // 이미지 URL이 존재하면 화면에 표시
-                    images.forEach(itme=> {
+                    res.data.customgoodsImageUrl?.forEach(item=> {
                         let imgTag = `<img src="${item.image_url}" class="gallery-item">`;
                     galleryDiv.append(imgTag);
                     });

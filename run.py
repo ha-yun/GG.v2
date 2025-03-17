@@ -53,6 +53,26 @@ def create_goods():
         print(f"✅ 이미지 저장 완료: {save_path}")
     else:
         print(f"❌ 이미지 다운로드 실패! 상태 코드: {img_response.status_code}")
+        return jsonify({'error': '이미지 다운로드 실패'}), 500
+    
+    # 🔥 추가된 부분: 이전 프로젝트(GG-SB) API 호출 - 커스텀 굿즈 저장
+    api_url = "http://52.77.19.120:8080/customgoods/save"  # 기존 프로젝트의 API URL
+    payload = {
+        "customgoodsName": timestamp,  # 원하는 값
+        "customgoodsDescription": user_input,
+        "customgoodsImageUrl": save_path  # 저장된 이미지 경로
+    }
+    headers = {"Content-Type": "application/json"}
+
+    try:
+        response = requests.post(api_url, json=payload, headers=headers)
+        if response.status_code == 200:
+            print(f"✅ 기존 서버에 저장 완료! 응답: {response.json()}")
+        else:
+            print(f"❌ 기존 서버 저장 실패! 상태 코드: {response.status_code}, 응답: {response.text}")
+    except Exception as e:
+        print(f"🚨 API 요청 중 오류 발생: {e}")
+
 
     response_data = {'answer': '이미지 생성 완료!', 'image_url': save_path}
     return jsonify(response_data)
