@@ -30,11 +30,11 @@
     </div>
 
     <!-- 이전에 생성된 작품 -->
-    <div id="result">
+    <div id="result" style="margin-bottom: 16px">
         <h2>지금까지의 디자인</h2>
         <div id="gallery"></div> <!-- 여기에 이미지 추가됨 -->
     </div>
-    
+
     <!-- 로딩 스피너 -->
     <div id="loading" style="display: none;">
         <div class="spinner"></div>
@@ -62,9 +62,15 @@
                     $('#taking').hide();
 
                     // 이미지 URL이 존재하면 화면에 표시
-                    res.data.customgoodsImageUrl?.forEach(item=> {
-                        let imgTag = `<img src="${item.image_url}" class="gallery-item">`;
-                    galleryDiv.append(imgTag);
+                    res?.forEach(item=> {
+                        console.log(item);
+                        let historyBox = `<div>
+                            <img src="${item.customgoodsImageUrl}" class="gallery-item">
+                            <h4 style="margin: 10px 0"
+                                >${item.customgoodsDescription}</h4>
+                            <span>${item.customgoodsName}</span>
+                            </div>`;
+                    galleryDiv.append(historyBox);
                     });
                 },
                 error: err => {
@@ -73,7 +79,7 @@
                     // 로딩 화면 숨기기
                     $('#taking').hide();
                 }
-            })
+            })                
         });
 
         $('#user_input').on('submit', e=>{
