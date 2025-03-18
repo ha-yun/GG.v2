@@ -3,27 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI 채팅</title>
+    <title>채팅</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
     <script>
         var socket = io.connect("http://" + document.domain + ":" + location.port);
 
         function sendMessage() {
             var message = document.getElementById("message").value;
+            if (message.trim() === "") return; // 빈 메시지 전송 방지
             socket.emit("send_message", {message: message});
             document.getElementById("message").value = "";
         }
 
         socket.on("receive_message", function(data) {
             var chatBox = document.getElementById("chat-box");
-            chatBox.innerHTML += "<p><strong>서버:</strong> " + data.message + "</p>";
+            var newMessage = document.createElement("p");
+            newMessage.className = "bg-gray-700 text-white p-2 rounded-lg my-1";
+            newMessage.innerHTML =  data.message;
+            chatBox.appendChild(newMessage);
+            chatBox.scrollTop = chatBox.scrollHeight; // 자동 스크롤
         });
     </script>
 </head>
-<body>
-    <h1>파이썬 tts채팅</h1>
-    <div id="chat-box" style="border:1px solid black; height:300px; overflow-y:scroll; padding:10px;"></div>
-    <input type="text" id="message" placeholder="메시지를 입력하세요">
-    <button onclick="sendMessage()">전송</button>
+<body class="bg-gray-900 text-white flex justify-center items-center h-screen">
+
+    <div class="bg-gray-800 p-6 rounded-xl shadow-lg max-w-md w-full">
+        <h1 class="text-2xl font-bold text-center mb-4">💬 채팅</h1>
+
+        <div id="chat-box" class="border border-gray-700 h-64 overflow-y-scroll p-3 rounded-lg bg-gray-700">
+            <!-- <p class="text-gray-400">💡 메시지를 입력하고 전송하세요!</p> -->
+        </div>
+
+        <div class="flex mt-4 space-x-2">
+            <input type="text" id="message" placeholder="메시지를 입력하세요"
+                class="flex-1 p-2 rounded-lg bg-gray-700 border border-gray-600 focus:border-blue-400 focus:ring focus:ring-blue-300 outline-none text-white">
+            <button onclick="sendMessage()" 
+                class="px-4 py-2 bg-blue-600 hover:bg-blue-500 transition rounded-lg font-semibold text-white">
+                전송
+            </button>
+        </div>
+    </div>
+
 </body>
 </html>
