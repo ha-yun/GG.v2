@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StarLink</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/index.css') }}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=music_note,palette,person" />
+
+
+</head>
+
+<body>
+    <!-- 헤더 -->
+    <div id="header"></div>
+    <div class="content">
+        <div id="service_wrap">
+            <fieldset>
+                <a href="/goods">
+                    <span class="material-symbols-outlined"
+                        style="color:#3f3f3f">
+                        palette
+                    </span>
+                    <h3>GoodsLab</h3>
+                    <span>AI 나만의 굿즈 만들기 </span>
+                </a>
+            </fieldset>
+            <fieldset>
+                <a href="/tts">
+                    <span class="material-symbols-outlined"
+                        style="color:#3f3f3f">
+                        music_note
+                    </span>
+                    <h3>MusicGen</h3>
+                    <span>AI 음악 생성 </span>
+                </a>
+            </fieldset>
+        </div>
+    </div>
+    <!-- 푸터 -->
+    <div id="footer"></div>
+    <script>
+        $(document).ready(function() {
+            $("#header").load("static/includes/header.html");
+            $("#footer").load("static/includes/footer.html");
+        });
+    </script>
+</body>
+</html>

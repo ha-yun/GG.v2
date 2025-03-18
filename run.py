@@ -24,7 +24,11 @@ def serve_image(filename):
 # 3. 라우팅 처리
 @app.route('/')     # URL, method 지정 (기본값 get방식)
 def home():
-    return "llama-index, openai, LLM service"
+    return render_template('home.html')
+
+@app.route('/login')
+def login():
+    return render_template('login.html')
 
 @app.route('/goods', methods=['GET'])
 def goods():

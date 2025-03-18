@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>로그인</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/index.css') }}">
+</head>
+
+<body>
+    <a href="/"><h1>StarLink</h1></a>
+    <fieldset>
+        <form id="login_input" style="display: flex; flex-direction: column; align-items: center;">
+            <p style="font-size: 14px; color: #666;">로그인</p>
+            <input name="email" type="text" placeholder="이메일" />
+            <input name="password" type="text" placeholder="비밀번호" />
+            <input type="submit" style="display: block;"
+                value="로그인" />
+        </form>
+    </fieldset>
+
+    <!-- 로딩 스피너 -->
+    <div id="loading" style="display: none;">
+        <div class="spinner"></div>
+        <p>로그인 중입니다...</p>
+    </div>
+
+
+    <script>
+        $('#login_input').on('submit', e=>{
+            e.preventDefault()
+
+            // 로딩 화면 표시
+            $('#loading').show();
+
+            let emailInput = $('[name=email]').val();
+            let passwordInput = $('[name=password]').val();
+
+            // 로그인 API 요청
+            $.ajax({
+                url: 'http://52.77.19.120:8080/auth/login',
+                type: 'POST',
+                data: JSON.stringify({ 'email': emailInput, 'password':passwordInput }),  // JSON 형식으로 변환
+                contentType: 'application/json',  // JSON 전송 명확히 지정
+                dataType: 'json',
+                success: res=>{
+                    console.log('성공',res)
+                    // JWT 토큰 & 이메일 세션 스토리지에 저장
+                    sessionStorage.setItem("token", res.accessToken);  
+                    sessionStorage.setItem("email", emailInput);
+
+                    // 로딩 화면 숨기기
+                    $('#loading').hide();
+                    // 로그인 성공 후 페이지 이동 (예: 메인 페이지)
+                    // window.location.href = "/";
+                },
+                error: err => {
+                    console.log('실패',err)
+                    alert('입력 정보를 확인해주세요.');
+                    // 로딩 화면 숨기기
+                    $('#loading').hide();
+                }
+            })
+        })
+    </script>
+</body>
+</html>
