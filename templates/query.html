@@ -1,0 +1,37 @@
+<html>
+<head>
+    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+</head>
+<body>
+    <fieldset>
+        <label>⭐ 스타의 무엇이 궁금하세요? (취향, 굿즈 등) ⭐</label>
+        <form id="query_input">
+            <textarea name="question"></textarea>
+            <input type="submit" value='❓'>
+        </form>
+    </fieldset>
+    <div id="answer"></div>
+    <script>
+        $('#query_input').on('submit', e => {
+            e.preventDefault();
+            $.ajax({
+                url: '/query',
+                type: 'POST',
+                data: JSON.stringify({
+                    'question': $('[name=question]').val()
+                }),
+                contentType: "application/json; charset=utf-8",
+                dataType: 'json',
+                success: res => {
+                    // 서버에서 받은 응답을 화면에 표시
+                    $('#answer').html(`<span>👱‍♀️💬 ${res.answer}</span>`);
+                },
+                error: err => {
+                    console.log( '실패', err );
+                    $('#answer').text( '오류가 발생했습니다.' );
+                }
+            });
+        });
+    </script>
+</body>
+</html>
