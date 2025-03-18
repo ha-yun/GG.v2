@@ -11,7 +11,7 @@ app = Flask(__name__, template_folder="templates")
 processor = AutoProcessor.from_pretrained("facebook/musicgen-small")
 model = MusicgenForConditionalGeneration.from_pretrained("facebook/musicgen-small")
 
-@app.route("/")
+@app.route("/song")
 def index():
     return render_template("index.html")  # index.html을 웹에서 표시
 

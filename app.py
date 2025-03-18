@@ -26,7 +26,7 @@ def handle_message(data):
     emit("receive_message", {"message": data["message"]}, broadcast=True)
     speak(data["message"])  # TTS 음성 출력
 
-@app.route("/")
+@app.route("/tts")
 def index():
     return render_template("chat.html")
 
