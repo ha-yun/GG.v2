@@ -23,7 +23,7 @@ jobs:
           key: ${{ secrets.EC2_KEY }}
           script_stop: true
           script: |
-            cd /home/ubuntu/GG.V2  # 프로젝트 디렉토리 이동
+            cd /home/ubuntu  # 프로젝트 디렉토리 이동
             git pull origin deploy-test  # 최신 코드 가져오기
             source venv/bin/activate  # 가상환경 활성화
             pip install -r requirements.txt  # 의존성 업데이트
