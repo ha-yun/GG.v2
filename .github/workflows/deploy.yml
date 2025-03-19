@@ -26,10 +26,16 @@ jobs:
       - name: 도커 허브 로그인
         run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
 
+      - name: 로그인 확인
+        run: docker login
+
       - name: 파이썬 이미지 생성 -> 허브(레퍼지토리) 푸시
         run: |
             docker build -t yunharoo/flask-app .
-            docker push yunharoo/flask-app
+            docker images
+
+      - name: 파이썬 이미지 푸시
+        run: docker push yunharoo/flask-app
 
   deploy:
     runs-on: ubuntu-latest
