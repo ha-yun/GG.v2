@@ -35,7 +35,7 @@ jobs:
             docker images
 
       - name: 파이썬 이미지 푸시
-        run: docker push yunharoo/flask-app
+        run: docker push yunharoo/flask-app:latest
 
   deploy:
     runs-on: ubuntu-latest
