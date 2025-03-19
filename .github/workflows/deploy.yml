@@ -31,11 +31,11 @@ jobs:
 
       - name: 파이썬 이미지 생성 -> 허브(레퍼지토리) 푸시
         run: |
-            docker build -t yunharoo/flask-app .
+            docker build -t harooo/flask-app .
             docker images
 
       - name: 파이썬 이미지 푸시
-        run: docker push yunharoo/flask-app:latest
+        run: docker push harooo/flask-app:latest
 
   deploy:
     runs-on: ubuntu-latest
@@ -53,5 +53,5 @@ jobs:
           # 이미지에 TAG를 기입하여 버전을 관리한다면 매번 갱신 가능(이미지)
           script: |
             sudo docker compose down
-            sudo docker pull yunharoo/flask-app:latest
+            sudo docker pull harooo/flask-app:latest
             sudo docker compose up -d
