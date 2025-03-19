@@ -1,5 +1,5 @@
 # 1. 베이스 이미지 선택 (Python 3.9 사용)
-FROM python:3.9
+FROM python:3.13.2
 
 # 2. 작업 디렉토리 설정
 WORKDIR /app
@@ -8,6 +8,8 @@ WORKDIR /app
 COPY . /app
 
 # 4. 의존성 설치
+# pip 최신화
+RUN python -m pip install --upgrade pip
 RUN pip install --no-cache-dir -r requirements.txt
 
 # 5. Flask 앱 실행 (Gunicorn 사용)
