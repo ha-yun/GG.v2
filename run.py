@@ -1,4 +1,4 @@
-# 1. 필요한 모듈 가져오기
+# 1. 필요한 모듈 가져오기 => Jinja2 템플릿 엔진
 from flask import Flask, jsonify, request, render_template, send_from_directory
 
 # jsonify: JSON 응답용
