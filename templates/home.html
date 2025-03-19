@@ -4,51 +4,79 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>StarLink</title>
-    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.js" 
+            integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/index.css') }}">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=music_note,palette,person" />
-
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=music_note,palette,chat" />
+    <style>
+        /* 컨테이너 정렬 */
+        #service_wrap {
+            display: flex;
+            flex-direction: column; /* 버튼을 세로 정렬 */
+            align-items: center; /* 가운데 정렬 */
+            gap: 15px; /* 버튼 간격 추가 */
+        }
+        fieldset {
+            width: 250px;
+            background: #f9f9f9;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            border: none;
+        }
+        a {
+            text-decoration: none;
+            color: black;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+        }
+        .material-symbols-outlined {
+            font-size: 40px;
+        }
+    </style>
 </head>
 
 <body>
     <!-- 헤더 -->
     <div id="header"></div>
+
     <div class="content">
         <div id="service_wrap">
+            <!-- GoodsLab (굿즈) -->
             <fieldset>
                 <a href="/goods">
-                    <span class="material-symbols-outlined"
-                        style="color:#3f3f3f">
-                        palette
-                    </span>
+                    <span class="material-symbols-outlined" style="color:#3f3f3f">palette</span>
                     <h3>GoodsLab</h3>
-                    <span>AI 나만의 굿즈 만들기 </span>
+                    <span>AI 나만의 굿즈 만들기</span>
                 </a>
             </fieldset>
+
+            <!-- MusicGen (AI 음악 생성) -->
             <fieldset>
                 <a href="/song">
-                    <span class="material-symbols-outlined"
-                        style="color:#3f3f3f">
-                        music_note
-                    </span>
+                    <span class="material-symbols-outlined" style="color:#3f3f3f">music_note</span>
                     <h3>MusicGen</h3>
-                    <span>AI 음악 생성 </span>
+                    <span>AI 음악 생성</span>
                 </a>
             </fieldset>
+
+            <!-- 채팅 (이제 굿즈 아래로 이동) -->
             <fieldset>
                 <a href="/tts">
-                    <span class="material-symbols-outlined"
-                        style="color:#3f3f3f">
-                        music_note
-                    </span>
-                    <h3>MusicGen</h3>
-                    <span>채팅 </span>
+                    <span class="material-symbols-outlined" style="color:#3f3f3f">chat</span>
+                    <h3>Chat</h3>
+                    <span>채팅</span>
                 </a>
             </fieldset>
         </div>
     </div>
+
     <!-- 푸터 -->
     <div id="footer"></div>
+
     <script>
         $(document).ready(function() {
             $("#header").load("static/includes/header.html");
