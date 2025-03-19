@@ -15,18 +15,37 @@ jobs:
         with:
           ref: deploy-test  # 정확한 브랜치 체크아웃!
 
-      - name: Deploy to EC2
+      # 도커 관련 액션 -> 도커 작업을 위한 환경
+      - name: 도커 작업을 진행하기 위한 액션 적용
+        uses: docker/setup-buildx-action@v3
+
+      # 도커 허브 > 프로필 -> ... 엑세스 토큰 발급
+      # 토큰발급 : 프로필 > account settings > Security Personal access tokens
+      # generate New access token 버튼 클릭 > 적당한이름/만료기간/read,write,delete
+      # 도커 허브 로그인 -> 계정 정보 -> 시크릿 변수
+      - name: 도커 허브 로그인
+        run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
+
+      - name: 파이썬 이미지 생성 -> 허브(레퍼지토리) 푸시
+        run: |
+            docker build -t yunharoo/flask-app .
+            docker push yunharoo/flask-app
+
+  deploy:
+    runs-on: ubuntu-latest
+    # 해당 잡이 진행될려면 사전에 반드시 다른 잡이 선행되어야 한다
+    needs: docker-cicd
+    steps:
+      - name: ec2에 SSH 접속 -> 도커 가동
         uses: appleboy/ssh-action@v1.1.0
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.EC2_KEY }}
           script_stop: true
+          # 이미지를 갱신하지는 않는다 -> 도커 컴포즈 파일에 기술하여 버전관리
+          # 이미지에 TAG를 기입하여 버전을 관리한다면 매번 갱신 가능(이미지)
           script: |
-            cd /home/ubuntu  # 프로젝트 디렉토리 이동
-            git pull origin deploy-test  # 최신 코드 가져오기
-            source venv/bin/activate  # 가상환경 활성화
-            pip install -r requirements.txt  # 의존성 업데이트
-            pkill -f "gunicorn" || true  # 기존 실행 중인 프로세스 종료 (없어도 오류 안 나게)
-            nohup gunicorn -w 4 -b 0.0.0.0:8000 run:app &  # Flask 실행 (gunicorn 사용)
-
+            sudo docker compose down
+            sudo docker pull yunharoo/flask-app:latest
+            sudo docker compose up -d
