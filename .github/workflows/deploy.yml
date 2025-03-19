@@ -6,7 +6,7 @@ on:
       - deploy-test
 
 jobs:
-  deploy:
+  docker-cicd:
     runs-on: ubuntu-latest
 
     steps:
