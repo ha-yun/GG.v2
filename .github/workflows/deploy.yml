@@ -52,6 +52,8 @@ jobs:
           # 이미지를 갱신하지는 않는다 -> 도커 컴포즈 파일에 기술하여 버전관리
           # 이미지에 TAG를 기입하여 버전을 관리한다면 매번 갱신 가능(이미지)
           script: |
-            sudo docker compose down
+            sudo docker search harooo/flask-app
+            sudo docker images
+            sudo docker ps
             sudo docker pull harooo/flask-app:latest
             sudo docker compose up -d
