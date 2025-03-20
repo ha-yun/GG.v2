@@ -83,7 +83,7 @@ span{
     flex-wrap: wrap;
 }
     fieldset {
-        width: 250px;
+        min-width: 200px;
         border: none;
         background: #f9f9f9;
         padding: 20px;
