@@ -41,7 +41,8 @@ def translate_text(text, source_lang="auto", target_lang="en", method="openai"):
                 f"You are a professional translator. "
                 f"Translate the following text into {target_lang}. "
                 f"DO NOT change the meaning, DO NOT paraphrase, DO NOT add explanations. "
-                f"ONLY return the translated text in {target_lang}, without any additional commentary."
+                f"ONLY return the translated text in {target_lang}, without any additional commentary. "
+                f"Make sure the response is 100% in {target_lang}, with no English or other languages mixed in."
             )
 
             response = client.chat.completions.create(
