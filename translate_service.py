@@ -60,6 +60,6 @@ def translate_text(text, source_lang="auto", target_lang="en", method="openai"):
 
 
 # ✅ 테스트 코드 (직접 실행 시 확인 가능)
-if __name__ == "__main__":
-    print(translate_text("안녕하세요!", target_lang="en", method="google"))  # Google 번역
-    print(translate_text("안녕하세요!", target_lang="en", method="openai"))  # OpenAI 번역
+#if __name__ == "__main__":
+#    print(translate_text("안녕하세요!", target_lang="en", method="google"))  # Google 번역
+#    print(translate_text("안녕하세요!", target_lang="en", method="openai"))  # OpenAI 번역

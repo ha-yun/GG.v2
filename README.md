@@ -44,3 +44,5 @@
     - (web) ..> python socket_service.py
     - 터미널 새 창 오픈 후 밑 코드 실행
     - (web) ..> python run.py
+
+    -> http://localhost:5000 진입
