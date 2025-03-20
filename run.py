@@ -9,7 +9,7 @@ import numpy as np
 import scipy.io.wavfile as wav
 from datetime import datetime
 from transformers import AutoProcessor, MusicgenForConditionalGeneration
-from flask_socketio import SocketIO, emit, join_room, leave_room
+from flask_socketio import SocketIO, emit, join_room
 from gtts import gTTS
 import playsound
 from CreateGoods import retrieve_goods, generate_image_prompt, generate_image  # 모델 로드
@@ -70,24 +70,6 @@ def create_goods():
         print(f"❌ 이미지 다운로드 실패! 상태 코드: {img_response.status_code}")
         return jsonify({'error': '이미지 다운로드 실패'}), 500
 
-    # 기존 프로젝트 API 호출 (GG-SB 서버)
-    api_url = "http://52.77.19.120:8080/customgoods/save"
-    payload = {
-        "customgoodsName": timestamp,
-        "customgoodsDescription": user_input,
-        "customgoodsImageUrl": save_path
-    }
-    headers = {"Content-Type": "application/json"}
-
-    try:
-        response = requests.post(api_url, json=payload, headers=headers)
-        if response.status_code == 200:
-            print(f"✅ 기존 서버에 저장 완료! 응답: {response.json()}")
-        else:
-            print(f"❌ 기존 서버 저장 실패! 상태 코드: {response.status_code}, 응답: {response.text}")
-    except Exception as e:
-        print(f"🚨 API 요청 중 오류 발생: {e}")
-
     return jsonify({'answer': '이미지 생성 완료!', 'image_url': save_path})
 
 @app.route("/song")
@@ -139,24 +121,9 @@ def download_file(filename):
     else:
         return jsonify({"success": False, "error": "파일이 존재하지 않습니다."})
 
-# WebSocket 채팅방 기능
-rooms = {}
-
 @app.route("/tts")
 def chat_page():
     return render_template("chat.html")
-
-@app.route("/rooms")
-def get_rooms():
-    return jsonify({"rooms": list(rooms.keys())})
-
-@app.route("/delete_room", methods=["DELETE"])
-def delete_room():
-    room = request.args.get("room")
-    if room in rooms:
-        del rooms[room]
-        return jsonify({"message": f"채팅방 '{room}' 삭제됨"})
-    return jsonify({"error": "채팅방이 존재하지 않음"}), 404
 
 # TTS 기능
 def speak(text):
@@ -167,22 +134,17 @@ def speak(text):
     time.sleep(1)
     os.remove(filename)
 
-# WebSocket 이벤트 핸들러
+# WebSocket 이벤트 핸들러 (채팅 기능)
 @socketio.on("join_room")
 def handle_join_room(data):
     room = data["room"]
     join_room(room)
-    if room not in rooms:
-        rooms[room] = []
-    emit("room_messages", {"messages": rooms[room]}, room=room)
+    emit("room_messages", {"messages": []}, room=room)  # 초기 메시지 없음
 
 @socketio.on("send_message")
 def handle_message(data):
     room = data["room"]
     message = data["message"]
-
-    if room in rooms:
-        rooms[room].append(message)
 
     emit("receive_message", {"message": message}, room=room)
 
