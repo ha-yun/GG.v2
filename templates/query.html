@@ -1,28 +1,21 @@
 <html>
 <head>
     <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/index.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/goods.css') }}">
     <style>
-        /* 전체 페이지 스타일 */
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #f9f9f9;
-        }
 
         /* 컨테이너 스타일 - 질문과 답변을 묶는 영역 */
         .container {
             display: flex;
             flex-direction: column; /* 수직 정렬 */
             align-items: center;
-            width: 400px;
+            max-width: 400px;
             background-color: #ffffff;
             border-radius: 10px;
             box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
             padding: 20px;
+            margin: 5% auto;
         }
 
         /* 서비스명 스타일 */
@@ -83,7 +76,11 @@
         }
     </style>
 </head>
+
 <body>
+    <!-- 헤더 -->
+    <div id="header"></div>
+    <div class="content">
     <!-- 질문과 답변을 묶는 컨테이너 -->
     <div class="container">
         <!-- 서비스명 추가 -->
@@ -126,6 +123,15 @@
                     $('#answer').text('오류가 발생했습니다.');
                 }
             });
+        });
+    </script>
+    </div>
+    <!-- 푸터 -->
+    <div id="footer"></div>
+    <script>
+        $(document).ready(function() {
+            $("#header").load("static/includes/header.html");
+            $("#footer").load("static/includes/footer.html");
         });
     </script>
 </body>

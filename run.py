@@ -48,6 +48,7 @@ def collect_data():
             data = response.json()
         else:
             print(f"❌ starboard 다운로드 실패! 상태 코드: {response.status_code}")
+            print(response)
             return []  # 빈 리스트 반환
         
         return [Document(text=f"{post['title']}\n\n{post['content']}") for post in data]
@@ -222,4 +223,4 @@ def handle_message(data):
 
 # 4. 서버 실행
 if __name__ == "__main__":
-    socketio.run(app, host="0.0.0.0", port=5001, debug=True)
+    socketio.run(app, host="0.0.0.0", port=5000, debug=True)
