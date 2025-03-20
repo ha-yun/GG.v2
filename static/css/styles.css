@@ -1,0 +1,134 @@
+/* ✅ 전체 페이지 스타일 */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+/* ✅ 채팅 컨테이너 */
+#chat-container {
+    width: 100%;
+    max-width: 400px;
+    background: white;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* ✅ 채팅 박스 */
+#chat-box {
+    height: 500px;
+    min-height: 500px;
+    width: 100%;
+    overflow-y: auto;
+    border-radius: 10px;
+    padding: 10px;
+    background: #f9f9f9;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    position: relative;
+}
+
+/* ✅ 빈 채팅방 메시지 (채팅이 없을 때 보임) */
+#empty-chat-message {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #999;
+    font-size: 16px;
+    text-align: center;
+}
+
+/* ✅ 메시지 컨테이너 (원본 + 번역 포함) */
+.message-container {
+    display: flex;
+    flex-direction: column;
+    max-width: 75%;
+    word-wrap: break-word;
+    margin-bottom: 12px;
+}
+
+/* ✅ 사용자가 보낸 메시지 */
+.user-message {
+    align-self: flex-end;
+    background-color: #007bff;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 15px;
+    max-width: 75%;
+    text-align: left; /* 왼쪽 정렬 */
+    position: relative;
+    margin-bottom: 6px;
+}
+
+/* ✅ 다른 사용자가 보낸 메시지 */
+.other-message {
+    align-self: flex-start;
+    background-color: #e5e5ea;
+    color: black;
+    padding: 10px 15px;
+    border-radius: 15px;
+    max-width: 75%;
+    text-align: left;
+    position: relative;
+    margin-bottom: 6px;
+}
+
+/* ✅ 번역된 메시지 (같은 박스 내부, 위에 줄 추가) */
+.translated {
+    font-size: 14px;
+    font-weight: normal;
+    color: #ddd;
+    margin-top: 5px;
+    display: block;
+    padding-top: 5px;
+    border-top: 1px solid rgba(255, 255, 255, 0.5); /* ✨ 위에 얇은 선 추가 */
+}
+.user-message .translated {
+    color: #f0f0f0;  /* 사용자 메시지는 흰색 톤 */
+    border-top: 1px solid rgba(255, 255, 255, 0.5); /* ✨ 위에 얇은 선 추가 */
+}
+.other-message .translated {
+    color: #666;  /* 상대방 메시지는 회색 톤 */
+    border-top: 1px solid rgba(0, 0, 0, 0.2); /* ✨ 위에 얇은 선 추가 */
+}
+
+/* ✅ 입력창과 버튼 스타일 */
+#input-container {
+    display: flex;
+    width: 100%;
+    max-width: 400px;
+    margin-top: 10px;
+    align-items: center;
+}
+
+#message-input {
+    flex: 1;
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 5px 0 0 5px;
+}
+
+/* ✅ 전송 버튼을 적당히 띄우기 */
+#send-btn {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+    padding: 10px 15px;
+    border-radius: 0 5px 5px 0;
+    margin-left: 5px;
+}
+
+#send-btn:hover {
+    background-color: #0056b3;
+}
