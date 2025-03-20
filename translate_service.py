@@ -36,19 +36,27 @@ def translate_text(text, source_lang="auto", target_lang="en", method="openai"):
     # ✅ OpenAI GPT를 이용한 번역
     elif method == "openai":
         try:
+            # target_lang을 프롬프트 내부에서 명확하게 설정
+            prompt = (
+                f"You are a professional translator. "
+                f"Translate the following text into {target_lang}. "
+                f"DO NOT change the meaning, DO NOT paraphrase, DO NOT add explanations. "
+                f"ONLY return the translated text in {target_lang}, without any additional commentary."
+            )
+
             response = client.chat.completions.create(
-                model="gpt-4o-mini",
+                model="gpt-4o-mini", 
                 messages=[
-                    {"role": "system", "content": f"Translate this exactly into {target_lang}. Do NOT change tone or meaning. No explanations, just return the translated text."},
+                    {"role": "system", "content": prompt},
                     {"role": "user", "content": text}
                 ],
-                temperature=0.0  # ✅ 직역 (의역 X)
+                temperature=0.0  # ✅ 변형 없이 직역하도록 설정
             )
             return response.choices[0].message.content.strip()
         except Exception as e:
             return f"OpenAI Translation Error: {e}"
 
-    return text  # 기본적으로 변환 없이 반환
+    return text
 
 
 # ✅ 테스트 코드 (직접 실행 시 확인 가능)
