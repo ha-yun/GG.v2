@@ -1,0 +1,132 @@
+<html>
+<head>
+    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+    <style>
+        /* 전체 페이지 스타일 */
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f9f9f9;
+        }
+
+        /* 컨테이너 스타일 - 질문과 답변을 묶는 영역 */
+        .container {
+            display: flex;
+            flex-direction: column; /* 수직 정렬 */
+            align-items: center;
+            width: 400px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+
+        /* 서비스명 스타일 */
+        .service-name {
+            font-size: 24px;
+            font-weight: bold;
+            color: #ffcc00;
+            margin-bottom: 15px; 
+        }
+
+        /* 질문 입력 영역 스타일 */
+        fieldset {
+            border: 2px solid #ffcc00;
+            border-radius: 10px;
+            padding: 20px;
+            width: 90%; 
+            text-align: center;
+        }
+
+        textarea {
+            margin-top: 10px;
+            width: 95%;
+            height: 80px;
+            margin-bottom: 10px;
+            padding: 10px;
+            font-size: 14px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        input[type="submit"] {
+            background-color: #ffcc00;
+            color: #333333;
+            font-size: 16px;
+            font-weight: bold;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #ffdd33;
+        }
+
+        /* 답변 표시 영역 스타일 */
+        #answer {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 10px;
+            border: 2px solid #ddd;
+            background-color: #fefefe;
+            font-size: 16px;
+            line-height: 1.5em;
+            text-align: left; /* 왼쪽 정렬 */
+            box-shadow: inset 0px 2px 4px rgba(0,0,0,0.05);
+            width: 93%;
+        }
+    </style>
+</head>
+<body>
+    <!-- 질문과 답변을 묶는 컨테이너 -->
+    <div class="container">
+        <!-- 서비스명 추가 -->
+        <div class="service-name">StarLink</div>
+
+        <fieldset>
+            <label>⭐ 스타의 무엇이 궁금하세요? (취향, 굿즈 등) ⭐</label>
+            <form id="query_input">
+                <textarea name="question" placeholder="질문을 입력하세요..."></textarea>
+                <input type="submit" value='❔'>
+            </form>
+        </fieldset>
+
+        <!-- 답변 표시 영역 -->
+        <div id="answer"></div>
+    </div>
+
+    <script>
+        $('#query_input').on('submit', e => {
+            e.preventDefault();
+
+            // 로딩 상태 표시
+            $('#answer').html('<span>⏳ 답변 중이에요... ⌛</span>');
+
+            // 서버로 질문 전송
+            $.ajax({
+                url: '/query',
+                type: 'POST',
+                data: JSON.stringify({
+                    'question': $('[name=question]').val()
+                }),
+                contentType: "application/json; charset=utf-8",
+                dataType: 'json',
+                success: res => {
+                    // 서버에서 받은 응답을 💬 이모티콘과 함께 답변 표시
+                    $('#answer').html(`<span>👩🏻💬 ${res.answer}</span>`);
+                },
+                error: err => {
+                    console.log('실패', err);
+                    $('#answer').text('오류가 발생했습니다.');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
