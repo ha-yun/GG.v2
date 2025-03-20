@@ -21,9 +21,13 @@
     flex: 1;
     padding: 20px;
 }
-
 a{
     text-decoration: none;
+    color: black;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
 }
 h1 {
     width: 100%;
@@ -71,12 +75,15 @@ span{
 }
 #service_wrap{
     display: flex;
+    gap: 15px; /* 버튼 간격 추가 */
     align-items: center;
     width: 100%;
     max-width: 800px;
     margin: 0 auto;
+    flex-wrap: wrap;
 }
     fieldset {
+        width: 250px;
         border: none;
         background: #f9f9f9;
         padding: 20px;

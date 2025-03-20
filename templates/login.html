@@ -9,24 +9,35 @@
 </head>
 
 <body>
-    <a href="/"><h1>StarLink</h1></a>
-    <fieldset>
-        <form id="login_input" style="display: flex; flex-direction: column; align-items: center;">
-            <p style="font-size: 14px; color: #666;">로그인</p>
-            <input name="email" type="text" placeholder="이메일" />
-            <input name="password" type="text" placeholder="비밀번호" />
-            <input type="submit" style="display: block;"
-                value="로그인" />
-        </form>
-    </fieldset>
+    <!-- 헤더 -->
+    <div id="header"></div>
+    <div class="content">
+        <a href="/"><h1>StarLink</h1></a>
+        <fieldset>
+            <form id="login_input" style="display: flex; flex-direction: column; align-items: center;">
+                <p style="font-size: 14px; color: #666;">로그인</p>
+                <input name="email" type="text" placeholder="이메일" />
+                <input name="password" type="text" placeholder="비밀번호" />
+                <input type="submit" style="display: block;"
+                    value="로그인" />
+            </form>
+        </fieldset>
 
-    <!-- 로딩 스피너 -->
-    <div id="loading" style="display: none;">
-        <div class="spinner"></div>
-        <p>로그인 중입니다...</p>
+        <!-- 로딩 스피너 -->
+        <div id="loading" style="display: none;">
+            <div class="spinner"></div>
+            <p>로그인 중입니다...</p>
+        </div>
     </div>
+    <!-- 푸터 -->
+    <div id="footer"></div>
 
-
+    <script>
+        $(document).ready(function() {
+            $("#header").load("static/includes/header.html");
+            $("#footer").load("static/includes/footer.html");
+        });
+    </script>
     <script>
         $('#login_input').on('submit', e=>{
             e.preventDefault()
