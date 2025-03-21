@@ -1,3 +1,5 @@
+import eventlet
+eventlet.monkey_patch() 
 # 1. 필요한 모듈 가져오기
 from flask import Flask, jsonify, request, render_template, send_from_directory, send_file # Flask 관련 모듈
 # OpenAI API 사용
@@ -7,21 +9,24 @@ import requests # HTTP 요청 처리
 import threading
 import time
 import torch
-import numpy as np
 import scipy.io.wavfile as wav
 from datetime import datetime
 from transformers import AutoProcessor, MusicgenForConditionalGeneration
 from flask_socketio import SocketIO, emit, join_room
 from gtts import gTTS
 import playsound
+
 from CreateGoods import retrieve_goods, generate_image_prompt, generate_image  # 모델 로드
 # Llama-Index 관련 모듈
 from llama_index.core import Document
 from llama_index.core import GPTVectorStoreIndex
 
 
+from socket_service import socketio
+
+
 # 2. Flask 앱 초기화
-app = Flask(__name__, template_folder="templates")  # "__main__"  # Flask 애플리케이션 생성
+app = Flask(__name__, static_folder="static", template_folder="templates")  # "__main__"  # Flask 애플리케이션 생성
 app.config["SECRET_KEY"] = "secret!"
 
 # WebSocket 설정
@@ -56,9 +61,7 @@ def collect_data():
     except requests.exceptions.RequestException as e:
         print(f"❌ 요청 실패: {str(e)}")
         return []  # 빈 리스트 반환
-    
 documents = collect_data()
-
 # 인덱스 생성
 index = GPTVectorStoreIndex.from_documents( documents )
 # 엔진 생성
@@ -221,7 +224,13 @@ def handle_message(data):
     tts_thread.start()
 
 
+@app.route("/translate")
+def translate():
+    return render_template("index.html")
+
 
 # 4. 서버 실행
 if __name__ == "__main__":
-    socketio.run(app, host="0.0.0.0", port=5000, debug=True)
+    socketio.init_app(app, cors_allowed_origins="*")
+    socketio.run(app, host="0.0.0.0", port=5001, debug=True)
+
