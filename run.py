@@ -46,6 +46,7 @@ def collect_data():
         response = requests.get(url)
         if response.status_code == 200:
             data = response.json()
+            print('데이터 불러오기 성공')
         else:
             print(f"❌ starboard 다운로드 실패! 상태 코드: {response.status_code}")
             print(response)
@@ -55,14 +56,14 @@ def collect_data():
     except requests.exceptions.RequestException as e:
         print(f"❌ 요청 실패: {str(e)}")
         return []  # 빈 리스트 반환
-
+    
 documents = collect_data()
-
 
 # 인덱스 생성
 index = GPTVectorStoreIndex.from_documents( documents )
 # 엔진 생성
 query_engine = index.as_query_engine()
+
 
 
 # 절대 경로 설정
