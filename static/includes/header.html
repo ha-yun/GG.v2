@@ -1,0 +1,100 @@
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
+
+<header>
+    <div class="header-container">
+        <a href="/" class="logo">StarLink</a>
+        <nav>
+            <a href="/query">
+                <span class="material-symbols-outlined">star</span>
+            </a>
+            <a href="/goods">
+                <span class="material-symbols-outlined">palette</span>
+            </a>
+            <a href="/song">
+                <span class="material-symbols-outlined">music_note</span>
+            </a>
+            <a href="/tts">
+                <span class="material-symbols-outlined">chat</span>
+            </a>
+            <a href="/translate">
+                <span class="material-symbols-outlined">translate</span>
+            </a>
+        </nav>
+    </div>
+</header>
+
+<style>
+    /* 🔥 헤더 스타일 (그라데이션 적용) */
+    header {
+        background: linear-gradient(45deg, #ff758c, #ff9800);
+        padding: 15px 20px;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.15);
+        border-bottom: 3px solid rgba(255, 255, 255, 0.3);
+        span{
+            color: white;
+        }
+    }
+
+    /* 📌 헤더 내부 컨테이너 */
+    .header-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    /* 🎨 로고 스타일 */
+    .logo {
+        font-size: 26px;
+        font-weight: bold;
+        text-decoration: none;
+        color: #fff;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        transition: opacity 0.3s ease-in-out;
+    }
+
+    .logo:hover {
+        opacity: 0.8;
+    }
+
+    /* 📌 네비게이션 */
+    nav {
+        display: flex;
+    }
+
+    /* 🌟 네비게이션 아이콘 */
+    nav a {
+        margin-left: 20px;
+        text-decoration: none;
+        font-size: 20px;
+        color: white;
+        transition: transform 0.3s ease-in-out, opacity 0.3s;
+    }
+
+    nav a:hover {
+        transform: scale(1.1);
+        opacity: 0.8;
+    }
+
+    /* 🏷️ 아이콘 크기 및 정렬 */
+    .material-symbols-outlined {
+        font-size: 28px;
+        vertical-align: middle;
+    }
+
+    /* 📱 반응형 (모바일 최적화) */
+    @media (max-width: 768px) {
+        .header-container {
+            flex-direction: column;
+            text-align: center;
+        }
+        nav {
+            margin-top: 10px;
+        }
+        nav a {
+            display: block;
+            margin: 5px 0;
+        }
+    }
+</style>

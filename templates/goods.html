@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>굿즈 목업 생성</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/index.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/goods.css') }}">
+    
+</head>
+
+<body>
+    <!-- 헤더 -->
+    <div id="header"></div>
+    <div class="content">
+        <h1>🎨 나만의 굿즈 만들기 ✨</h1>
+        <fieldset>
+            <label>💡 원하는 디자인을 적어주세요!</label>
+            <p style="font-size: 14px; color: #666;">(문양, 패턴, 동물 등 자유롭게 입력하세요.)</p>
+            <form id="user_input">
+                <textarea name="question"></textarea>
+                <input type="submit" value="✨ 생성하기 ✨" />
+            </form>
+        </fieldset>
+
+        <!-- 결과를 표시할 영역 -->
+        <div id="result" style="display: none;">
+            <h2>완성된 디자인</h2>
+            <div id="imageContainer">
+                <img id="generatedImage" src="" alt="이미지가 여기에 표시됩니다." 
+                    style="max-width: 500px; width:100%;">
+                    <p>Your custom design is ready!</p>
+            </div>
+        </div>
+
+        <!-- 이전에 생성된 작품 -->
+        <div id="result" style="margin-bottom: 16px">
+            <h2>지금까지의 디자인</h2>
+            <div id="gallery"></div> <!-- 여기에 이미지 추가됨 -->
+        </div>
+
+        <!-- 로딩 스피너 -->
+        <div id="loading" style="display: none;">
+            <div class="spinner"></div>
+            <p>이미지를 생성 중입니다...</p>
+        </div>
+
+
+        <!-- 로딩 스피너 -->
+        <div id="taking" style="display: none;">
+            <div class="spinner"></div>
+            <p>히스토리를 불러오는 중입니다...</p>
+        </div>
+
+    </div>
+    <!-- 푸터 -->
+    <div id="footer"></div>
+
+    <script>
+        $(document).ready(function() {
+            $("#header").load("static/includes/header.html");
+            $("#footer").load("static/includes/footer.html");
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            $('#taking').show();
+            let galleryDiv = $("#gallery");
+            // 기존 프로젝트에서 요청
+            $.ajax({
+                url: "http://52.77.19.120:8080/customgoods", // 🔥 추가된 부분: 이전 프로젝트(GG-SB) API 호출 - 커스텀 굿즈 조회
+                type: 'GET',
+                success: res=>{
+                    console.log('성공',res)
+                    // 로딩 화면 숨기기
+                    $('#taking').hide();
+
+                    // 이미지 URL이 존재하면 화면에 표시
+                    res?.forEach(item=> {
+                        console.log(item);
+                        let historyBox = `<div>
+                            <img src="${item.customgoodsImageUrl}" class="gallery-item">
+                            <h4 style="margin: 10px 0"
+                                >${item.customgoodsDescription}</h4>
+                            <span>${item.customgoodsName}</span>
+                            </div>`;
+                    galleryDiv.append(historyBox);
+                    });
+                },
+                error: err => {
+                    console.log('실패',err)
+                    alert('히스토리를 불러오는데 실패했습니다.');
+                    // 로딩 화면 숨기기
+                    $('#taking').hide();
+                }
+            })                
+        });
+
+        $('#user_input').on('submit', e=>{
+            e.preventDefault()
+            // 로딩 화면 표시
+            $('#loading').show();
+
+            let userText = $('[name=question]').val();
+
+            // 서버 전송
+            $.ajax({
+                url: '/api/ai/goods',
+                type: 'POST',
+                data: JSON.stringify({ 'user_input': userText }),  // JSON 형식으로 변환
+                contentType: 'application/json',  // JSON 전송 명확히 지정
+                dataType: 'json',
+                success: res=>{
+                    console.log('성공',res)
+                    // 로딩 화면 숨기기
+                    $('#loading').hide();
+                    // 이미지 URL이 존재하면 화면에 표시
+                    if (res.answer) {
+                        $('#result').show();
+                        $('#generatedImage').attr('src', res.image_url).show(); 
+                        }
+                },
+                error: err => {
+                    console.log('실패',err)
+                    alert('이미지 생성에 실패했습니다.');
+                    // 로딩 화면 숨기기
+                    $('#loading').hide();
+                }
+            })
+        })
+    </script>
+    
+</body>
+</html>

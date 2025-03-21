@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎵 AI 음악 생성기 🎶</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/index.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/goods.css') }}">
+    <style>
+        .title {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #eec1cd;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .title span {
+            margin-right: 5px;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            margin: 50px auto;
+        }
+        .input-box {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ffb6c1;
+            border-radius: 10px;
+            font-size: 1rem;
+        }
+        .btn {
+            background-color: #f6baca;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 5px;
+        }
+        .btn:hover {
+            background-color: #ff5c84;
+        }
+        .section-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #e0c4cc;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <!-- 헤더 -->
+    <div id="header"></div>
+    <div class="content">
+        <body class="h-screen justify-center bg-[#fffaf5]">
+            <div class="container bg-white p-8 rounded-xl shadow-lg max-w-md text-center">
+                <div class="title">
+                    🎵 <span>나만의 음악 만들기</span> 🎶
+                </div>
+                <p class="text-gray-600 text-sm">원하는 음악 스타일을 적어주세요!</p>
+        
+                <form id="music-form" class="mt-4 flex flex-col items-center">
+                    <input type="text" id="style" name="style" class="input-box" placeholder="음악 스타일 입력">
+                    <button type="submit" class="btn mt-4">
+                        ✨ 음악 생성하기 ✨
+                    </button>
+                </form>
+        
+                <p id="status" class="mt-4 text-sm text-gray-500"></p>
+        
+                <a id="download-link" style="display: none;" 
+                    class="block mt-4 py-2 px-4 bg-pink-500 hover:bg-pink-400 transition rounded-lg font-semibold text-white">
+                    다운로드 
+                </a>
+            </div>
+        </body>
+    </div>
+    <!-- 푸터 -->
+    <div id="footer"></div>
+    <script>
+        $(document).ready(function() {
+            $("#header").load("static/includes/header.html");
+            $("#footer").load("static/includes/footer.html");
+        });
+    </script>
+
+    <script>
+        document.getElementById("music-form").addEventListener("submit", async function(event) {
+            event.preventDefault();
+            const style = document.getElementById("style").value;
+            document.getElementById("status").innerText = "음악을 생성하는 중...";
+            document.getElementById("download-link").style.display = "none";
+
+            const response = await fetch("/generate", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ style })
+            });
+
+            const result = await response.json();
+            if (result.success) {
+                document.getElementById("status").innerText = "음악이 생성되었습니다!";
+                document.getElementById("download-link").href = result.filepath;
+                document.getElementById("download-link").innerText = "다운로드";
+                document.getElementById("download-link").style.display = "block";
+            } else {
+                document.getElementById("status").innerText = "오류: " + result.error;
+            }
+        });
+    </script>
+
+</body>
+</html>
