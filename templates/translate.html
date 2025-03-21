@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>실시간 번역 채팅</title>
+
+    <!-- ✅ CSS 파일 연결 -->
+    <link rel="stylesheet" href="/static/css/styles.css">
+
+    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/index.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/goods.css') }}">
+
+    <!-- ✅ 최신 버전의 Socket.IO CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.4/socket.io.js"></script>
+</head>
+
+<body>
+    <!-- 헤더 -->
+    <div id="header"></div>
+
+    <div class="content">
+        <h2>실시간 번역 채팅</h2>
+        <div style="max-width: 450px; margin: 10px auto;">
+            <label for="target-lang">번역 언어:</label>
+            <select id="target-lang">
+                <option value="en">English</option>
+                <option value="ko">한국어</option>
+                <option value="ja">日本語</option>
+                <option value="zh-cn">中文</option>
+            </select>
+        </div>
+
+        <div class="translate_wrap">
+            <div id="chat-box">
+                <p id="empty-chat-message">아직 메시지가 없습니다. 채팅을 시작해보세요!</p>
+            </div>
+
+            <div id="input-container">
+                <input type="text" id="message-input" placeholder="메시지를 입력하세요">
+                <button id="send-btn" onclick="sendMessage()">전송</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 푸터 -->
+    <div id="footer"></div>
+
+    <script>
+        $(document).ready(function() {
+            $("#header").load("static/includes/header.html");
+            $("#footer").load("static/includes/footer.html");
+        });
+    </script>
+
+    <!-- ✅ script.js를 Body 끝에서 로드 (올바른 순서) -->
+    <script src="/static/script.js"></script>
+</body>
+</html>

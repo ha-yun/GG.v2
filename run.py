@@ -226,11 +226,11 @@ def handle_message(data):
 
 @app.route("/translate")
 def translate():
-    return render_template("index.html")
+    return render_template("translate.html")
 
 
 # 4. 서버 실행
 if __name__ == "__main__":
     socketio.init_app(app, cors_allowed_origins="*")
-    socketio.run(app, host="0.0.0.0", port=5001, debug=True)
+    socketio.run(app, port=5000, debug=True)
 
