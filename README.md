@@ -4,7 +4,8 @@
     - 요청/응답 : json
 - 환경구성
     - 가상환경 구축 -> 로컬 개발 (가상환경구성 충돌 방지함)
-
+- 노션 링크
+- https://www.notion.so/Mini-PJT-3-4-1b4fbb38705d80caa687fe8b74034eab?source=copy_link
 <details>
 <summary>환경구성(기본)</summary>
 
@@ -22,7 +23,7 @@
     ```
 </details>
 
-### ✅ 동일한 환경 세팅하는 방법
+###  동일한 환경 세팅하는 방법
 - 현재 가상환경에 설치된 패키지 목록 => requirements.txt 파일 이용
     ```
         python -m venv web  # 가상환경 생성
